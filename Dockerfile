@@ -5,6 +5,6 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 WORKDIR /app
 COPY . /app
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD ["/bin/sh", "-c", "php -S 0.0.0.0:8080 -t /app/public"]
+CMD ["/bin/sh", "-c", "php -S 0.0.0.0:3000 -t /app/public"]
