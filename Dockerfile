@@ -7,4 +7,4 @@ COPY . /app
 
 EXPOSE 8080
 
-CMD ["/bin/sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t /app/public"]
+CMD ["/bin/sh", "-c", "php -S 0.0.0.0:8080 -t /app/public"]
