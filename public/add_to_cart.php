@@ -16,7 +16,7 @@ if (isset($_POST['buy'])) {
         die("Error: " . mysqli_error($db));
     }
 
-    header("Location: http://localhost:8000/cart/?machine_id=" . $machine_id);
+    header("Location: https://sotg-django-production.up.railway.app/cart/?machine_id=" . $machine_id);
     exit();
 }
 ?>
