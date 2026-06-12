@@ -5,6 +5,8 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN apk add --no-cache nginx
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
 
 WORKDIR /app
 COPY . /app
@@ -13,4 +15,4 @@ RUN chown -R www-data:www-data /app
 
 EXPOSE 8080
 
-CMD sh -c "php-fpm -D && nginx -g 'daemon off;'"
+CMD ["/start.sh"]
