@@ -2,10 +2,10 @@ FROM php:8.3-apache
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-RUN a2enmod rewrite
-
-# Fix: disable MPM event, enable MPM prefork
-RUN a2dismod mpm_event && a2enmod mpm_prefork
+# Fix MPM conflict: hapus semua MPM, aktifkan prefork saja
+RUN a2dismod mpm_event mpm_worker mpm_prefork 2>/dev/null; \
+    a2enmod mpm_prefork && \
+    a2enmod rewrite
 
 RUN sed -i 's|/var/www/html|/app/public|g' /etc/apache2/sites-available/000-default.conf
 
