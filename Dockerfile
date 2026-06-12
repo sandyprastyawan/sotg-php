@@ -10,8 +10,7 @@ WORKDIR /app
 COPY . /app
 
 RUN chown -R www-data:www-data /app
-RUN chmod +x /app/start.sh
 
 EXPOSE 80
 
-CMD ["/app/start.sh"]
+CMD bash -c "sed -i \"s/Listen 80/Listen $PORT/\" /etc/apache2/ports.conf && sed -i \"s/:80>/:$PORT>/\" /etc/apache2/sites-available/000-default.conf && exec apache2-foreground"
