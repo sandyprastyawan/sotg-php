@@ -1,10 +1,17 @@
-FROM php:8.3-cli
+FROM php:8.3-apache
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+RUN a2enmod rewrite
+
+RUN sed -i 's|/var/www/html|/app/public|g' /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /app
 COPY . /app
 
-EXPOSE 3000
+RUN chown -R www-data:www-data /app
+RUN chmod +x /app/start.sh
 
-CMD ["/bin/sh", "-c", "php -S 0.0.0.0:3000 -t /app/public"]
+EXPOSE 80
+
+CMD ["/app/start.sh"]
