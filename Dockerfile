@@ -1,12 +1,16 @@
 FROM php:8.3-apache
 
+# Tambah ARG untuk force cache bust
+ARG CACHEBUST=1
+
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Hapus semua MPM symlink, buat ulang hanya prefork
+# Disable semua MPM, aktifkan prefork saja
 RUN rm -f /etc/apache2/mods-enabled/mpm_*.load \
-          /etc/apache2/mods-enabled/mpm_*.conf && \
-    ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load && \
-    ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf
+          /etc/apache2/mods-enabled/mpm_*.conf \
+          /etc/apache2/mods-enabled/mpm_*.conf~ && \
+    ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load && \
+    ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf
 
 RUN a2enmod rewrite
 
